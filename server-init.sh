@@ -30,3 +30,7 @@ sed -i 's/PermitRootLogin\syes/PermitRootLogin no/g' /etc/ssh/sshd_config
 systemctl restart sshd
 # Allow new user to use sudo
 sed -i 44a"$user  ALL=(ALL:ALL) ALL" /etc/sudoers
+# Ensure that the systemd-resolved service is running
+systemctl is-active --quiet systemd-resolved || systemctl restart systemd-resolved
+# Add the systemd-resolved service to the bootstrap.
+systemctl is-enabled --quiet systemd-resolved || systemctl enable systemd-resolved
